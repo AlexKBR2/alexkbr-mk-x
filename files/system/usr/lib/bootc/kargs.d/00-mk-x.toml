@@ -1,0 +1,1 @@
+kargs = ["amd_pstate=active", "amdgpu.ppfeaturemask=0xffffffff", "mitigations=auto"]

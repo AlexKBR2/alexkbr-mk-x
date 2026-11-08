@@ -1,0 +1,88 @@
+# AlexKBR MK-X - SO focado em jogos (Fedora Atomic + XFCE com visual estilo XP)
+name: alexkbr-mk-x
+description: AlexKBR MK-X - sistema leve para jogos, GPU AMD, visual inspirado no Windows XP
+base-image: ghcr.io/ublue-os/base-main
+image-version: latest   # depois fixe na versao estavel atual do Fedora
+
+modules:
+  # 1) Repositorios e pacotes
+  - type: rpm-ostree
+    repos:
+      - https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-%OS_VERSION%.noarch.rpm
+      - https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-%OS_VERSION%.noarch.rpm
+    install:
+      # Desktop leve (XFCE) + menu iniciar estilo classico
+      - xorg-x11-server-Xorg
+      - xorg-x11-xinit
+      - xorg-x11-drv-libinput
+      - lightdm
+      - lightdm-gtk
+      - xfce4-session
+      - xfce4-panel
+      - xfce4-settings
+      - xfce4-appfinder
+      - xfce4-power-manager
+      - xfce4-notifyd
+      - xfce4-taskmanager
+      - xfce4-terminal
+      - xfce4-pulseaudio-plugin
+      - xfce4-whiskermenu-plugin
+      - xfwm4
+      - xfdesktop
+      - Thunar
+      - thunar-volman
+      - gvfs
+      - mousepad
+      - ristretto
+      - file-roller
+      - network-manager-applet
+      - pavucontrol
+      - xdg-user-dirs-gtk
+      - git
+      # Jogos
+      - steam
+      - lutris
+      - wine
+      - winetricks
+      - gamescope
+      - gamemode
+      - mangohud
+      - corectrl
+      - vulkan-loader.i686
+      - mesa-vulkan-drivers.i686
+      - mesa-dri-drivers.i686
+      - mesa-libGL.i686
+      # Desempenho
+      - tuned
+      - tuned-ppd
+
+  # 2) Nossos arquivos de configuracao (sysctl, udev, tuned, gamemode, pipewire...)
+  - type: files
+    files:
+      - source: system
+        destination: /
+
+  # 3) Tema estilo XP (baixado na build)
+  - type: script
+    scripts:
+      - xp-theme.sh
+
+  # 4) Servicos
+  - type: systemd
+    system:
+      enabled:
+        - lightdm.service
+        - tuned.service
+
+  # 5) Apps via Flatpak
+  - type: default-flatpaks
+    configurations:
+      - scope: system
+        repo-url: https://dl.flathub.org/repo/flathub.flatpakrepo
+        repo-name: flathub
+        install:
+          - com.heroicgameslauncher.hgl
+          - net.davidotek.pupgui2
+          - com.usebottles.bottles
+          - org.mozilla.firefox
+

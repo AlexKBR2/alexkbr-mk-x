@@ -1,0 +1,51 @@
+# Gera a ISO instalavel do AlexKBR MK-X a partir da imagem publicada.
+# Rode manualmente em: Actions > build-iso > Run workflow
+name: build-iso
+on:
+  workflow_dispatch:
+    inputs:
+      fedora_version:
+        description: "Versao do Fedora usada na imagem (ex.: a estavel atual)"
+        required: true
+        default: "43"
+
+jobs:
+  iso:
+    name: Build ISO
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: read
+    steps:
+      - name: Dono do repositorio em minusculas
+        id: owner
+        run: echo "name=${GITHUB_REPOSITORY_OWNER,,}" >> "$GITHUB_OUTPUT"
+
+      - name: Liberar espaco em disco
+        uses: jlumbroso/free-disk-space@main
+        with:
+          tool-cache: true
+          android: true
+          dotnet: true
+          haskell: true
+          large-packages: false
+
+      - name: Build ISO
+        id: build
+        uses: jasonn3/build-container-installer@main   # fixe numa versao/tag depois
+        with:
+          arch: x86_64
+          image_name: alexkbr-mk-x
+          image_repo: ghcr.io/${{ steps.owner.outputs.name }}
+          image_tag: latest
+          version: ${{ inputs.fedora_version }}
+          variant: Silverblue
+          iso_name: alexkbr-mk-x.iso
+
+      - name: Publicar ISO como artefato
+        uses: actions/upload-artifact@v4
+        with:
+          name: alexkbr-mk-x-iso
+          path: ${{ steps.build.outputs.iso_path }}
+          if-no-files-found: error
+          compression-level: 0
