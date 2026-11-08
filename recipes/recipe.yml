@@ -5,11 +5,8 @@ base-image: ghcr.io/ublue-os/base-main
 image-version: latest   # depois fixe na versao estavel atual do Fedora
 
 modules:
-  # 1) Repositorios e pacotes
+  # 1) Pacotes do sistema (so o essencial; os jogos vem por Flatpak)
   - type: rpm-ostree
-    repos:
-      - https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-%OS_VERSION%.noarch.rpm
-      - https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-%OS_VERSION%.noarch.rpm
     install:
       # Desktop leve (XFCE) + menu iniciar estilo classico
       - xorg-x11-server-Xorg
@@ -39,20 +36,11 @@ modules:
       - pavucontrol
       - xdg-user-dirs-gtk
       - git
-      # Jogos
-      - steam
-      - lutris
-      - wine
-      - winetricks
+      # Ferramentas de jogos e desempenho
       - gamescope
       - gamemode
       - mangohud
       - corectrl
-      - vulkan-loader.i686
-      - mesa-vulkan-drivers.i686
-      - mesa-dri-drivers.i686
-      - mesa-libGL.i686
-      # Desempenho
       - tuned
       - tuned-ppd
 
@@ -74,15 +62,16 @@ modules:
         - lightdm.service
         - tuned.service
 
-  # 5) Apps via Flatpak
+  # 5) Jogos e apps via Flatpak (instalados no primeiro boot, com internet)
   - type: default-flatpaks
     configurations:
       - scope: system
         repo-url: https://dl.flathub.org/repo/flathub.flatpakrepo
         repo-name: flathub
         install:
+          - com.valvesoftware.Steam
+          - net.lutris.Lutris
           - com.heroicgameslauncher.hgl
           - net.davidotek.pupgui2
           - com.usebottles.bottles
           - org.mozilla.firefox
-
