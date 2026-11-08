@@ -7,7 +7,7 @@ on:
       fedora_version:
         description: "Versao do Fedora usada na imagem (ex.: a estavel atual)"
         required: true
-        default: "43"
+        default: "45"
 
 jobs:
   iso:
@@ -41,6 +41,7 @@ jobs:
           version: ${{ inputs.fedora_version }}
           variant: Silverblue
           iso_name: alexkbr-mk-x.iso
+          image_signed: false
 
       - name: Publicar ISO como artefato
         uses: actions/upload-artifact@v4
