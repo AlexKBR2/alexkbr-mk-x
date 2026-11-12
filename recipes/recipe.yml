@@ -36,6 +36,11 @@ modules:
       - pavucontrol
       - xdg-user-dirs-gtk
       - git
+      # Mais parecido com o Windows
+      - xfce4-screenshooter
+      - thunar-archive-plugin
+      - gvfs-smb
+      - ntfs-3g
       # Ferramentas de jogos e desempenho
       - gamescope
       - gamemode
@@ -77,3 +82,11 @@ modules:
           - net.davidotek.pupgui2
           - com.usebottles.bottles
           - org.mozilla.firefox
+          - com.google.Chrome
+          - com.discordapp.Discord
+          - org.videolan.VLC
+          - org.libreoffice.LibreOffice
+          - com.obsproject.Studio
+          - io.github.benjamimgois.goverlay
+          - com.github.tchx84.Flatseal
+          - com.gitlab.davem.ClamTk
