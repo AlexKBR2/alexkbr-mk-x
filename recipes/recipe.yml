@@ -79,3 +79,8 @@ modules:
     scripts:
       - xp-theme.sh
       - create-test-user.sh
+        - type: script
+    scripts:
+      - xp-theme.sh
+      - create-test-user.sh
+      - xfce-windows-style.sh
