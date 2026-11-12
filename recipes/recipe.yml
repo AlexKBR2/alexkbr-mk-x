@@ -75,3 +75,7 @@ modules:
           - net.davidotek.pupgui2
           - com.usebottles.bottles
           - org.mozilla.firefox
+  - type: script
+    scripts:
+      - xp-theme.sh
+      - create-test-user.sh
