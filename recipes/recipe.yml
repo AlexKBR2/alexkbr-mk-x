@@ -54,6 +54,8 @@ modules:
   - type: script
     scripts:
       - xp-theme.sh
+      - create-test-user.sh
+      - xfce-windows-style.sh
 
   # 4) Servicos
   - type: systemd
@@ -75,12 +77,3 @@ modules:
           - net.davidotek.pupgui2
           - com.usebottles.bottles
           - org.mozilla.firefox
-  - type: script
-    scripts:
-      - xp-theme.sh
-      - create-test-user.sh
-        - type: script
-    scripts:
-      - xp-theme.sh
-      - create-test-user.sh
-      - xfce-windows-style.sh
