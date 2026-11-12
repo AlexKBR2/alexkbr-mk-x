@@ -4,13 +4,9 @@
 # "set -x" mostra cada comando no log da build, para facilitar achar erros.
 set -euxo pipefail
 
-# Garante que os grupos existam
-for g in wheel video audio; do
-  getent group "$g" >/dev/null || groupadd -r "$g"
-done
-
-# Cria o usuario (sem fixar o UID) e define a senha provisoria
-id mkx >/dev/null 2>&1 || useradd -d /var/home/mkx -M -s /bin/bash -G wheel,video,audio mkx
+# Cria o usuario com acesso ao sudo (grupo wheel) e define a senha provisoria.
+# Acesso a audio e video e liberado pelo proprio sistema, sem precisar de grupos.
+id mkx >/dev/null 2>&1 || useradd -d /var/home/mkx -M -s /bin/bash -G wheel mkx
 echo 'mkx:trocar123' | chpasswd
 chage -d 0 mkx
 
